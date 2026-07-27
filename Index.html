@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>লাকি ড্র কাউন্টার — Lucky Draw Check-in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --paper:#FAF6EE;
+    --paper-dim:#F1EADA;
+    --ink:#1C2541;
+    --muted:#736C5C;
+    --line:#D8CEB4;
+    --red:#B23A2E;
+    --red-dim:#F3E1DD;
+    --gold:#B8891F;
+    --gold-dim:#F5ECD6;
+    --green:#3A6B4E;
+    --green-dim:#E1EBE3;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper-dim);
+    color:var(--ink);
+    font-family:'Hind Siliguri','IBM Plex Mono',sans-serif;
+    min-height:100vh;
+  }
+  ::selection{background:var(--gold-dim);}
+  a{color:inherit;}
+
+  header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:20;
+    border-bottom:3px dashed rgba(250,246,238,0.25);
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo Da 2',sans-serif;font-weight:800;
+    color:var(--ink);font-size:18px;flex-shrink:0;
+  }
+  .brand-text .t1{font-family:'Baloo Da 2',sans-serif;font-weight:700;font-size:19px;line-height:1.1;}
+  .brand-text .t2{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#B9C0D6;}
+  nav{display:flex;gap:6px;}
+  nav button{
+    background:transparent;border:1px solid rgba(250,246,238,0.3);color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:8px 16px;
+    border-radius:20px;cursor:pointer;transition:background .15s ease;
+  }
+  nav button.active{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:600;}
+  nav button:not(.active):hover{background:rgba(250,246,238,0.12);}
+
+  main{max-width:980px;margin:0 auto;padding:0 20px 80px;}
+
+  .counter{
+    margin-top:36px;background:var(--paper);border-radius:16px;border:1px solid var(--line);
+    box-shadow:0 1px 0 var(--line), 0 20px 40px -30px rgba(28,37,65,0.4);
+    padding:36px 32px 30px;position:relative;overflow:hidden;
+  }
+  .counter::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:6px;
+    background:repeating-linear-gradient(90deg,var(--red) 0 14px, var(--gold) 14px 28px);opacity:.85;
+  }
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Baloo Da 2',sans-serif;font-weight:700;font-size:clamp(26px,4vw,36px);margin:0 0 8px;line-height:1.2;}
+  .sub{color:var(--muted);font-size:15px;max-width:60ch;margin:0 0 26px;}
+
+  form#entryForm{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field.full{grid-column:1/-1;}
+  label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+  input[type=text],input[type=password],input[type=email]{
+    border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:12px 13px;
+    font-size:15.5px;font-family:'Hind Siliguri',sans-serif;color:var(--ink);outline:none;
+    transition:border-color .15s ease;
+  }
+  input:focus{border-color:var(--gold);}
+  input.err{border-color:var(--red);background:var(--red-dim);}
+  .errmsg{color:var(--red);font-size:12.5px;min-height:16px;}
+  .submit-row{grid-column:1/-1;display:flex;align-items:center;gap:14px;margin-top:6px;}
+  button.primary{
+    background:var(--ink);color:var(--paper);border:none;padding:13px 26px;border-radius:26px;
+    font-family:'Baloo Da 2',sans-serif;font-weight:600;font-size:15.5px;cursor:pointer;
+    transition:transform .1s ease, background .15s ease;
+  }
+  button.primary:hover{background:var(--red);}
+  button.primary:active{transform:scale(.97);}
+  button.primary:disabled{opacity:.5;cursor:default;}
+  .form-status{font-size:13.5px;font-family:'IBM Plex Mono',monospace;}
+  .form-status.ok{color:var(--green);}
+  .form-status.bad{color:var(--red);}
+
+  .list-head{display:flex;justify-content:space-between;align-items:baseline;margin:44px 0 6px;flex-wrap:wrap;gap:10px;}
+  .list-head h2{font-family:'Baloo Da 2',sans-serif;font-size:21px;margin:0;}
+  .stats{display:flex;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);flex-wrap:wrap;}
+  .stats b{color:var(--ink);}
+  .list-note{color:var(--muted);font-size:13px;margin:0 0 20px;}
+
+  .stub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .stub{
+    display:grid;grid-template-columns:64px 1fr;background:var(--paper);border:1px solid var(--line);
+    border-radius:10px;overflow:hidden;position:relative;box-shadow:0 10px 22px -18px rgba(28,37,65,0.5);
+  }
+  .stub-no{
+    background:var(--ink);color:var(--gold-dim);font-family:'IBM Plex Mono',monospace;font-size:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;
+    position:relative;border-right:2px dashed rgba(250,246,238,0.35);text-align:center;gap:2px;
+  }
+  .stub-no::before,.stub-no::after{
+    content:"";position:absolute;left:50%;transform:translateX(-50%);width:16px;height:16px;
+    border-radius:50%;background:var(--paper-dim);
+  }
+  .stub-no::before{top:-8px;}
+  .stub-no::after{bottom:-8px;}
+  .stub-no .lbl{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#9BA3C0;}
+  .stub-no .num{font-weight:600;font-size:14px;}
+  .stub-body{padding:12px 14px;}
+  .stub-name{font-family:'Baloo Da 2',sans-serif;font-weight:600;font-size:16px;margin:0 0 3px;}
+  .stub-mobile{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);}
+  .stub-time{font-size:11px;color:var(--muted);margin-top:6px;}
+  .badge{
+    display:inline-block;margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;font-weight:600;
+  }
+  .badge.pending{background:var(--gold-dim);color:var(--gold);}
+  .badge.verified{background:var(--green-dim);color:var(--green);}
+  .badge.rejected{background:var(--red-dim);color:var(--red);}
+  .badge.winner{background:var(--ink);color:var(--gold);}
+  .empty{color:var(--muted);font-size:14px;padding:30px 0;text-align:center;border:1px dashed var(--line);border-radius:10px;}
+
+  .admin-gate{max-width:380px;margin:60px auto;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:30px;text-align:center;}
+  .admin-gate h2{font-family:'Baloo Da 2',sans-serif;margin-top:0;}
+  .admin-gate input{width:100%;margin:8px 0;text-align:center;}
+  .admin-warning{font-size:12px;color:var(--muted);background:var(--gold-dim);border-radius:8px;padding:10px 12px;margin-top:16px;text-align:left;line-height:1.5;}
+  .admin-toolbar{display:flex;justify-content:space-between;align-items:center;margin:30px 0 16px;flex-wrap:wrap;gap:10px;}
+  table.admin-table{width:100%;border-collapse:collapse;background:var(--paper);border-radius:10px;overflow:hidden;font-size:13.5px;}
+  table.admin-table th{
+    background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    letter-spacing:.06em;text-transform:uppercase;padding:10px 8px;text-align:left;
+  }
+  table.admin-table td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  table.admin-table input[type=text]{padding:7px 8px;font-size:13px;border-radius:6px;}
+  table.admin-table select{padding:7px 6px;border-radius:6px;border:1.5px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:12px;background:#fff;}
+  .icon-btn{border:none;background:transparent;cursor:pointer;color:var(--red);font-size:13px;font-family:'IBM Plex Mono',monospace;}
+  .icon-btn:hover{text-decoration:underline;}
+  button.ghost{
+    background:transparent;border:1.5px dashed var(--muted);color:var(--ink);padding:9px 16px;
+    border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;cursor:pointer;
+  }
+  button.ghost:hover{border-color:var(--ink);}
+  footer{text-align:center;color:var(--muted);font-size:11.5px;font-family:'IBM Plex Mono',monospace;padding:30px 0 10px;}
+  .conn-banner{
+    background:var(--red);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+    text-align:center;padding:9px;
+  }
+  @media(max-width:640px){
+    form#entryForm{grid-template-columns:1fr;}
+    table.admin-table{font-size:12px;}
+    table.admin-table th:nth-child(1),table.admin-table td:nth-child(1){display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== FILL THESE TWO IN BEFORE DEPLOYING (Supabase → Settings → API) ====== -->
+<script>
+  const SUPABASE_URL = 'https://rarsglaoiluujyuymzgvp.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_LBEc2it3_SI9IxlkIiwP2Q_DttieN-L';
+</script>
+
+<div id="connBanner" class="conn-banner" hidden>⚠ Supabase URL/Key সেট করা হয়নি — উপরের SUPABASE_URL ও SUPABASE_ANON_KEY কনস্ট্যান্ট দুটো পূরণ করুন।</div>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">লা</div>
+    <div class="brand-text">
+      <div class="t1">লাকি ড্র কাউন্টার</div>
+      <div class="t2">Entry Check-in</div>
+    </div>
+  </div>
+  <nav>
+    <button id="navHome" class="active">হোম</button>
+    <button id="navAdmin">অ্যাডমিন</button>
+  </nav>
+</header>
+
+<main>
+  <div id="homeView">
+    <section class="counter">
+      <div class="eyebrow">টিকিট কাউন্টার · Ticket Counter</div>
+      <h1>আপনার নাম্বার ও ট্রানজেকশন আইডি দিন</h1>
+      <p class="sub">মোবাইল নাম্বার এবং ট্রানজেকশন নাম্বার লিখে সাবমিট করুন। সঠিক তথ্য দিলে আপনার নাম ও মোবাইলের শেষ ৪ ডিজিট নিচের পাবলিক লিস্টে যুক্ত হবে।</p>
+
+      <form id="entryForm" novalidate>
+        <div class="field full">
+          <label for="fName">আপনার নাম</label>
+          <input type="text" id="fName" placeholder="যেমন: রফিকুল ইসলাম">
+          <div class="errmsg" id="errName"></div>
+        </div>
+        <div class="field">
+          <label for="fMobile">মোবাইল নাম্বার</label>
+          <input type="text" id="fMobile" placeholder="01XXXXXXXXX" inputmode="numeric" maxlength="11">
+          <div class="errmsg" id="errMobile"></div>
+        </div>
+        <div class="field">
+          <label for="fTxn">ট্রানজেকশন নাম্বার</label>
+          <input type="text" id="fTxn" placeholder="যেমন: TXN45821A">
+          <div class="errmsg" id="errTxn"></div>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="primary" id="submitBtn">চেক-ইন করুন</button>
+          <span class="form-status" id="formStatus"></span>
+        </div>
+      </form>
+    </section>
+
+    <div class="list-head">
+      <h2>এন্ট্রি লিস্ট</h2>
+      <div class="stats" id="statsBar"></div>
+    </div>
+    <p class="list-note">সবাই এই লিস্ট দেখতে পাবে। অ্যাডমিন যাচাই করে স্ট্যাটাস আপডেট করলে এখানে লাইভ আপডেট হবে।</p>
+    <div class="stub-grid" id="stubGrid"></div>
+  </div>
+
+  <div id="adminView" hidden>
+    <div id="adminGateWrap"></div>
+    <div id="adminPanelWrap" hidden></div>
+  </div>
+
+  <footer>Lucky Draw Check-in · Powered by Supabase</footer>
+</main>
+
+<script>
+(function(){
+  if(SUPABASE_URL.includes('YOUR_') || SUPABASE_ANON_KEY.includes('YOUR_')){
+    document.getElementById('connBanner').hidden = false;
+  }
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false } // no localStorage; admin re-logs in each visit
+  });
+
+  let entries = [];
+  let session = null;
+
+  // ---------- validation ----------
+  function validateName(v){ return /^[\u0980-\u09FFa-zA-Z\s.'-]{2,60}$/.test(v.trim()); }
+  function validateMobile(v){ return /^01[3-9]\d{8}$/.test(v.trim()); }
+  function validateTxn(v){ return /^[A-Za-z0-9-]{4,24}$/.test(v.trim()); }
+  function last4(mobile){ return mobile.slice(-4); }
+  function fmtTime(ts){
+    const d = new Date(ts);
+    return d.toLocaleString('bn-BD', {hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'});
+  }
+  function ticketNo(i){ return 'T-' + String(i+1).padStart(4,'0'); }
+  const statusLabel = { pending:'পেন্ডিং', verified:'ভেরিফাইড', rejected:'বাতিল', winner:'বিজয়ী' };
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+  // ---------- data ----------
+  async function loadEntries(){
+    const { data, error } = await sb.from('entries').select('*').order('created_at', { ascending:false });
+    if(error){ console.error(error); entries = []; return; }
+    entries = data.map(r => ({ id:r.id, name:r.name, mobile:r.mobile, txn:r.txn, status:r.status, ts:new Date(r.created_at).getTime() }));
+  }
+
+  function renderStats(){
+    const counts = { pending:0, verified:0, rejected:0, winner:0 };
+    entries.forEach(e => { counts[e.status] = (counts[e.status]||0)+1; });
+    document.getElementById('statsBar').innerHTML = `
+      <span>মোট: <b>${entries.length}</b></span>
+      <span>পেন্ডিং: <b>${counts.pending}</b></span>
+      <span>ভেরিফাইড: <b>${counts.verified}</b></span>
+      <span>বিজয়ী: <b>${counts.winner}</b></span>
+    `;
+  }
+
+  function renderStubs(){
+    const grid = document.getElementById('stubGrid');
+    if(entries.length === 0){
+      grid.innerHTML = '<div class="empty">এখনো কোনো এন্ট্রি নেই। প্রথম হোন!</div>';
+      renderStats();
+      return;
+    }
+    const sorted = [...entries].sort((a,b)=>a.ts-b.ts).map((e,i)=>({...e,_no:i})).sort((a,b)=>b.ts-a.ts);
+    grid.innerHTML = sorted.map(e => `
+      <div class="stub">
+        <div class="stub-no"><span class="lbl">টিকিট</span><span class="num">${ticketNo(e._no)}</span></div>
+        <div class="stub-body">
+          <p class="stub-name">${escapeHtml(e.name)}</p>
+          <div class="stub-mobile">****${last4(e.mobile)}</div>
+          <span class="badge ${e.status}">${statusLabel[e.status]}</span>
+          <div class="stub-time">${fmtTime(e.ts)}</div>
+        </div>
+      </div>
+    `).join('');
+    renderStats();
+  }
+
+  // ---------- form ----------
+  const form = document.getElementById('entryForm');
+  const fName = document.getElementById('fName');
+  const fMobile = document.getElementById('fMobile');
+  const fTxn = document.getElementById('fTxn');
+  const formStatus = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function setError(input, msgEl, msg){
+    if(msg){ input.classList.add('err'); msgEl.textContent = msg; }
+    else{ input.classList.remove('err'); msgEl.textContent = ''; }
+  }
+
+  form.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    formStatus.textContent = ''; formStatus.className = 'form-status';
+    const name = fName.value.trim(), mobile = fMobile.value.trim(), txn = fTxn.value.trim();
+    let ok = true;
+    if(!validateName(name)){ setError(fName, document.getElementById('errName'), 'সঠিক নাম দিন (কমপক্ষে ২ অক্ষর)'); ok=false; }
+    else setError(fName, document.getElementById('errName'), '');
+    if(!validateMobile(mobile)){ setError(fMobile, document.getElementById('errMobile'), '১১ ডিজিটের সঠিক বাংলাদেশি নাম্বার দিন'); ok=false; }
+    else setError(fMobile, document.getElementById('errMobile'), '');
+    if(!validateTxn(txn)){ setError(fTxn, document.getElementById('errTxn'), '৪-২৪ অক্ষরের ট্রানজেকশন আইডি দিন'); ok=false; }
+    else setError(fTxn, document.getElementById('errTxn'), '');
+    if(!ok) return;
+
+    submitBtn.disabled = true;
+    const { error } = await sb.from('entries').insert([{ name, mobile, txn, status:'pending' }]);
+    submitBtn.disabled = false;
+
+    if(error){
+      if(error.code === '23505'){
+        setError(fTxn, document.getElementById('errTxn'), 'এই ট্রানজেকশন নাম্বার ইতিমধ্যে ব্যবহৃত হয়েছে');
+      }else{
+        formStatus.textContent = '✗ সমস্যা হয়েছে, আবার চেষ্টা করুন';
+        formStatus.classList.add('bad');
+      }
+      return;
+    }
+    form.reset();
+    formStatus.textContent = '✓ সফলভাবে যুক্ত হয়েছে — তালিকায় দেখুন';
+    formStatus.classList.add('ok');
+    await loadEntries();
+    renderStubs();
+  });
+
+  // ---------- nav ----------
+  const navHome = document.getElementById('navHome');
+  const navAdmin = document.getElementById('navAdmin');
+  const homeView = document.getElementById('homeView');
+  const adminView = document.getElementById('adminView');
+
+  navHome.addEventListener('click', () => {
+    navHome.classList.add('active'); navAdmin.classList.remove('active');
+    homeView.hidden = false; adminView.hidden = true;
+  });
+  navAdmin.addEventListener('click', () => {
+    navAdmin.classList.add('active'); navHome.classList.remove('active');
+    homeView.hidden = true; adminView.hidden = false;
+    renderAdmin();
+  });
+
+  // ---------- admin ----------
+  function renderAdminGate(errMsg){
+    document.getElementById('adminGateWrap').innerHTML = `
+      <div class="admin-gate">
+        <h2>অ্যাডমিন লগইন</h2>
+        <input type="email" id="adminEmail" placeholder="Email">
+        <input type="password" id="adminPass" placeholder="Password">
+        <button class="primary" id="adminLoginBtn" style="width:100%;">প্রবেশ করুন</button>
+        <div class="errmsg">${errMsg || ''}</div>
+        <div class="admin-warning">
+          এই লগইন Supabase Auth দিয়ে যাচাই হয় — শুধু ড্যাশবোর্ডে যে অ্যাডমিন ইউজার বানিয়েছেন সে-ই ঢুকতে পারবে। সেশন রিফ্রেশে সংরক্ষিত থাকে না (নিরাপত্তার জন্য), প্রতিবার পেজ রিলোডে আবার লগইন করতে হবে।
+        </div>
+      </div>
+    `;
+    document.getElementById('adminLoginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPass').value;
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if(error){ renderAdminGate('ভুল ইমেইল বা পাসওয়ার্ড'); return; }
+      session = data.session;
+      renderAdmin();
+    });
+  }
+
+  async function renderAdmin(){
+    if(!session){
+      document.getElementById('adminGateWrap').hidden = false;
+      document.getElementById('adminPanelWrap').hidden = true;
+      renderAdminGate();
+      return;
+    }
+    document.getElementById('adminGateWrap').hidden = true;
+    const panel = document.getElementById('adminPanelWrap');
+    panel.hidden = false;
+    await loadEntries();
+
+    panel.innerHTML = `
+      <div class="admin-toolbar">
+        <div>মোট এন্ট্রি: <b>${entries.length}</b></div>
+        <div style="display:flex;gap:8px;">
+          <button class="ghost" id="addManualBtn">+ ম্যানুয়াল এন্ট্রি যোগ করুন</button>
+          <button class="ghost" id="lockAdminBtn">লগআউট</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+      <table class="admin-table">
+        <thead><tr><th>টিকিট</th><th>নাম</th><th>মোবাইল</th><th>ট্রানজেকশন</th><th>স্ট্যাটাস</th><th>সময়</th><th></th></tr></thead>
+        <tbody id="adminRows"></tbody>
+      </table>
+      </div>
+    `;
+
+    document.getElementById('addManualBtn').addEventListener('click', async () => {
+      const txn = 'MANUAL-' + Date.now();
+      await sb.from('entries').insert([{ name:'নতুন এন্ট্রি', mobile:'01000000000', txn, status:'pending' }]);
+      renderAdmin();
+    });
+    document.getElementById('lockAdminBtn').addEventListener('click', async () => {
+      await sb.auth.signOut();
+      session = null;
+      renderAdmin();
+    });
+
+    const sorted = [...entries].sort((a,b)=>a.ts-b.ts).map((e,i)=>({...e,_no:i})).sort((a,b)=>b.ts-a.ts);
+    const rows = document.getElementById('adminRows');
+    rows.innerHTML = sorted.map(e => `
+      <tr data-id="${e.id}">
+        <td>${ticketNo(e._no)}</td>
+        <td><input type="text" data-field="name" value="${escapeAttr(e.name)}"></td>
+        <td><input type="text" data-field="mobile" value="${escapeAttr(e.mobile)}"></td>
+        <td><input type="text" data-field="txn" value="${escapeAttr(e.txn)}"></td>
+        <td>
+          <select data-field="status">
+            <option value="pending" ${e.status==='pending'?'selected':''}>পেন্ডিং</option>
+            <option value="verified" ${e.status==='verified'?'selected':''}>ভেরিফাইড</option>
+            <option value="rejected" ${e.status==='rejected'?'selected':''}>বাতিল</option>
+            <option value="winner" ${e.status==='winner'?'selected':''}>বিজয়ী</option>
+          </select>
+        </td>
+        <td style="font-size:11px;color:var(--muted);white-space:nowrap;">${fmtTime(e.ts)}</td>
+        <td><button class="icon-btn" data-action="delete">মুছুন</button></td>
+      </tr>
+    `).join('');
+
+    rows.querySelectorAll('tr').forEach(tr => {
+      const id = tr.dataset.id;
+      tr.querySelectorAll('input,select').forEach(inp => {
+        inp.addEventListener('change', async () => {
+          const field = inp.dataset.field;
+          const { error } = await sb.from('entries').update({ [field]: inp.value.trim() }).eq('id', id);
+          if(error) alert('আপডেট ব্যর্থ হয়েছে: ' + error.message);
+        });
+      });
+      tr.querySelector('[data-action="delete"]').addEventListener('click', async () => {
+        if(!confirm('এই এন্ট্রি মুছে ফেলতে চান?')) return;
+        await sb.from('entries').delete().eq('id', id);
+        renderAdmin();
+      });
+    });
+  }
+
+  // ---------- realtime ----------
+  function subscribeRealtime(){
+    sb.channel('entries-changes')
+      .on('postgres_changes', { event:'*', schema:'public', table:'entries' }, async () => {
+        await loadEntries();
+        if(adminView.hidden){ renderStubs(); }
+      })
+      .subscribe();
+  }
+
+  // ---------- init ----------
+  async function init(){
+    await loadEntries();
+    renderStubs();
+    subscribeRealtime();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
