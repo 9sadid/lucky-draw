@@ -59,15 +59,30 @@
 
   .howitworks-box{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
   .howitworks-head{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:15px;margin-bottom:14px;}
-  .howitworks-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-  .hiw-step{display:flex;flex-direction:column;gap:8px;}
+  .howitworks-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;}
+  .hiw-step{display:flex;flex-direction:column;gap:8px;position:relative;}
+  .hiw-step:not(:last-child)::after{
+    content:"→";position:absolute;top:1px;right:-16px;font-size:16px;font-weight:800;color:var(--gold);
+  }
+  @media(max-width:720px){ .hiw-step:not(:last-child)::after{ display:none; } }
   .hiw-num{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
-  .hiw-text{font-size:12.5px;color:var(--ink);line-height:1.5;}
+  .hiw-text{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.5;}
   @media(max-width:720px){.howitworks-steps{grid-template-columns:1fr 1fr;}}
 
   .payment-box{margin-top:16px;background:var(--green-dim);border:1px solid var(--green);border-radius:14px;padding:18px;}
   .payment-head{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:15px;margin-bottom:10px;color:var(--green);}
-  .payment-numbers{font-size:14px;color:var(--ink);line-height:1.8;white-space:pre-wrap;font-family:'IBM Plex Mono',monospace;}
+  .payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .payment-method-box{background:#fff;border:1px solid var(--green);border-radius:10px;padding:12px 14px;}
+  .pm-label{font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:11.5px;color:var(--green);font-weight:700;margin-bottom:6px;}
+  .pm-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .pm-number{font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:16px;color:var(--ink);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pm-copy{
+    flex-shrink:0;background:var(--green-dim);color:var(--green);border:none;border-radius:6px;
+    padding:5px 10px;font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;
+  }
+  .pm-copy:hover{background:var(--green);color:#fff;}
+  .pm-copy.copied{background:var(--ink);color:var(--gold);}
+  @media(max-width:640px){ .payment-methods{grid-template-columns:1fr;} }
 
   /* ---------- vault + flip countdown ---------- */
   .vault{margin-top:20px;background:linear-gradient(150deg,var(--ink),var(--ink-2));border-radius:16px;padding:30px 28px;color:#EDE9DC;}
@@ -77,23 +92,23 @@
   .countdown-wrap{margin-bottom:22px;}
   .countdown-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8891AD;margin-bottom:8px;}
   .countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-  .cbox{background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 8px;text-align:center;perspective:300px;}
-  .cbox .cnum{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:800;color:#fff;transform-style:preserve-3d;}
+  .cbox{background:linear-gradient(160deg,#F0D48A,var(--gold));border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:12px 8px;text-align:center;perspective:300px;box-shadow:0 4px 14px -4px rgba(184,146,58,0.5);}
+  .cbox .cnum{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:800;color:var(--ink);transform-style:preserve-3d;}
   .cbox .cnum.flip{animation:flipnum .4s ease;}
   @keyframes flipnum{0%{transform:rotateX(0deg);}45%{transform:rotateX(85deg);opacity:.3;}100%{transform:rotateX(0deg);opacity:1;}}
-  .cbox .cunit{font-size:10.5px;color:#8891AD;margin-top:2px;font-family:'IBM Plex Mono',monospace;}
+  .cbox .cunit{font-size:10.5px;color:#5C4A16;font-weight:600;margin-top:2px;font-family:'IBM Plex Mono',monospace;}
   .countdown-ended{background:rgba(166,52,42,0.2);border:1px solid var(--red);color:#F3C9C3;border-radius:10px;padding:12px 16px;font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:600;text-align:center;}
   .vault-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px;}
   .vstat{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;}
   .vstat .lbl{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#9BA3C0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
   .vstat .val{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-size:28px;font-weight:700;color:var(--gold);}
   .prize-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  .prize-box{background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px 16px 20px;text-align:center;position:relative;overflow:hidden;transition:transform .18s ease;}
-  .prize-box:hover{transform:translateY(-3px);}
+  .prize-box{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px 16px 20px;text-align:center;position:relative;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
   .prize-box::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;}
-  .prize-box.r1{border-color:rgba(228,193,92,0.45);box-shadow:0 0 34px -12px rgba(228,193,92,0.5);}
-  .prize-box.r2{border-color:rgba(199,203,214,0.4);box-shadow:0 0 30px -14px rgba(199,203,214,0.4);}
-  .prize-box.r3{border-color:rgba(201,138,86,0.4);box-shadow:0 0 30px -14px rgba(201,138,86,0.4);}
+  .prize-box.r1{border-color:rgba(228,193,92,0.5);background:linear-gradient(160deg,rgba(228,193,92,0.22),rgba(228,193,92,0.05));box-shadow:0 0 34px -12px rgba(228,193,92,0.5);}
+  .prize-box.r2{border-color:rgba(199,203,214,0.45);background:linear-gradient(160deg,rgba(199,203,214,0.22),rgba(199,203,214,0.05));box-shadow:0 0 30px -14px rgba(199,203,214,0.4);}
+  .prize-box.r3{border-color:rgba(201,138,86,0.45);background:linear-gradient(160deg,rgba(201,138,86,0.22),rgba(201,138,86,0.05));box-shadow:0 0 30px -14px rgba(201,138,86,0.4);}
+  .prize-box:hover{transform:translateY(-4px);box-shadow:0 0 40px -10px rgba(228,193,92,0.6);}
   .prize-box.r1::before{background:linear-gradient(90deg,#E4C15C,#F5DFA0);}
   .prize-box.r2::before{background:linear-gradient(90deg,#C7CBD6,#EAEBF0);}
   .prize-box.r3::before{background:linear-gradient(90deg,#C98A56,#E6B588);}
@@ -105,8 +120,18 @@
   .prize-tba{font-size:12px;color:#8891AD;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 10px;border:1px dashed rgba(255,255,255,0.15);}
 
   /* ---------- trust bar ---------- */
-  .trust-bar{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-  .trust-item{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 10px;text-align:center;font-size:11.5px;font-weight:600;color:var(--green);display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .trust-bar{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .trust-item{border:none;border-radius:10px;padding:12px 10px;text-align:center;font-size:11.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .trust-item:nth-child(1){background:var(--gold-dim);color:#8A6A1E;}
+  .trust-item:nth-child(2){background:var(--green-dim);color:var(--green);}
+  .trust-item:nth-child(3){background:#E1E8F5;color:#2B5FA8;}
+  .trust-item:nth-child(4){background:var(--red-dim);color:var(--red);}
+  .entries-page-head{display:flex;align-items:center;gap:12px;margin:22px 0 16px;flex-wrap:wrap;}
+  .entries-page-head h2{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-size:19px;margin:0;flex:1;}
+  .entries-page-head #entriesBackBtn{
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 14px;
+    font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:12.5px;cursor:pointer;color:var(--ink);
+  }
   .trust-item svg{width:18px;height:18px;color:var(--green);}
 
   /* ---------- entry form ---------- */
@@ -194,6 +219,7 @@
     background:var(--panel);border:2px solid var(--ink);border-radius:14px;padding:16px 15px 13px;
     position:relative;overflow:hidden;box-shadow:0 2px 6px -2px rgba(18,23,42,0.12), 0 10px 24px -14px rgba(18,23,42,0.35);
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    aspect-ratio:1/1.4;display:flex;flex-direction:column;
   }
   .ticket-card::before, .ticket-card::after{
     content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--paper-dim);
@@ -202,11 +228,6 @@
   .ticket-card::before{top:-9px;}
   .ticket-card::after{bottom:-9px;}
   .ticket-card:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 6px 14px -4px rgba(18,23,42,0.18), 0 18px 34px -14px rgba(18,23,42,0.4);border-color:var(--gold);}
-  .tc-watermark{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-22deg);
-    font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:800;font-size:26px;color:var(--ink);opacity:.045;
-    white-space:nowrap;pointer-events:none;letter-spacing:.05em;
-  }
   .ribbon{position:absolute;top:10px;right:-30px;transform:rotate(40deg);width:104px;text-align:center;font-size:8.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;padding:3px 0;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.28);display:flex;align-items:center;justify-content:center;gap:3px;z-index:3;}
   .ribbon svg{width:9px;height:9px;flex-shrink:0;}
   .ribbon.pending{background:linear-gradient(135deg,#C9A23E,var(--gold));}
@@ -215,12 +236,13 @@
   .tc-no{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:800;font-size:22px;color:var(--ink);letter-spacing:.03em;position:relative;z-index:1;}
   .tc-divider{border:none;border-top:2px dashed var(--line);margin:8px 0 9px;position:relative;z-index:1;}
   .tc-name{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:14.5px;margin:0 0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:1;}
+  .tc-body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:2px;}
   .tc-row{display:flex;justify-content:space-between;gap:6px;font-size:10.5px;margin-bottom:4px;position:relative;z-index:1;}
-  .tc-row-lbl{font-family:'IBM Plex Mono',monospace;color:#9BA095;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;}
+  .tc-row-lbl{font-family:'SolaimanLipi','IBM Plex Mono',monospace;color:#9BA095;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;}
   .tc-row-val{font-family:'IBM Plex Mono',monospace;color:var(--ink);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .tc-download{
     margin-top:9px;width:100%;background:var(--green-dim);color:var(--green);border:none;border-radius:7px;
-    font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;padding:6px 0;cursor:pointer;position:relative;z-index:1;
+    font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;padding:6px 0;cursor:pointer;position:relative;z-index:1;
   }
   .tc-download:hover{background:var(--green);color:#fff;}
   .tc-download:disabled{opacity:.6;cursor:default;}
@@ -327,7 +349,7 @@
     /* payment numbers box: smaller padding/text so long numbers wrap cleanly */
     .payment-box{padding:14px;}
     .payment-head{font-size:13.5px;}
-    .payment-numbers{font-size:12.5px;line-height:1.7;}
+    .pm-number{font-size:14px;}
   }
   @media(max-width:380px){
     .countdown-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
@@ -460,19 +482,19 @@
         <div class="hiw-step"><div class="hiw-num">২</div><div class="hiw-text">আপনার নাম, মোবাইল ও ট্রানজেকশন আইডি দিয়ে চেক-ইন করুন</div></div>
         <div class="hiw-step"><div class="hiw-num">৩</div><div class="hiw-text">অ্যাডমিন যাচাই করলে আপনার এন্ট্রি "ভেরিফাইড" হবে</div></div>
         <div class="hiw-step"><div class="hiw-num">৪</div><div class="hiw-text">নির্ধারিত সময়ে মানুষ ছাড়াই ইলেকট্রনিক ভাবে বিজয়ী নির্বাচন করা হবে</div></div>
+        <div class="hiw-step"><div class="hiw-num">৫</div><div class="hiw-text">কোনো দালাল নেই — সংগৃহীত অর্থ সরাসরি বিজয়ীদের দেওয়া হয়; সিস্টেম চালানোর জন্য শুধু সর্বনিম্ন যে চার্জ কাটা হয়, তা ব্যতীত সবটুকুই পুরস্কার হিসেবে বণ্টিত হয়</div></div>
       </div>
-    </div>
-
-    <div class="trust-bar">
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>লাইভ ড্র</div>
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>নিরাপদ পেমেন্ট</div>
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>যাচাইকৃত এন্ট্রি</div>
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg>স্বচ্ছ বিজয়ী নির্বাচন</div>
+      <div class="trust-bar">
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>লাইভ ড্র</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>নিরাপদ পেমেন্ট</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>যাচাইকৃত এন্ট্রি</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg>স্বচ্ছ বিজয়ী নির্বাচন</div>
+      </div>
     </div>
 
     <div class="payment-box" id="paymentBox" hidden>
       <div class="payment-head">💳 পেমেন্ট পাঠানোর নাম্বার</div>
-      <div class="payment-numbers" id="paymentNumbersText"></div>
+      <div class="payment-methods" id="paymentMethods"></div>
     </div>
 
     <section class="vault">
@@ -577,6 +599,16 @@
     </footer>
   </div>
 
+  <div id="entriesView" hidden>
+    <div class="entries-page-head">
+      <button id="entriesBackBtn">← ফিরে যান</button>
+      <h2>সব এন্ট্রি</h2>
+      <div class="stats" id="statsBarPage"></div>
+    </div>
+    <div class="ticket-grid" id="stubGridPage"></div>
+    <div class="pager" id="pagerPage"></div>
+  </div>
+
   <div id="adminView" hidden>
     <div id="adminGateWrap"></div>
     <div id="adminPanelWrap" hidden></div>
@@ -623,7 +655,7 @@
   let settings = {
     ticket_price:10, platform_fee_percent:10, prize_first_percent:50, prize_second_percent:30, prize_third_percent:20,
     competition_end_at:null, rules_text:'', contact_info:'', about_text:'', privacy_text:'', terms_text:'',
-    social_facebook:'', social_whatsapp:'', social_telegram:'', payment_numbers:''
+    social_facebook:'', social_whatsapp:'', social_telegram:'', payment_bkash:'', payment_nagad:'', payment_rocket:''
   };
   let messages = [];
   let comments = [];
@@ -835,18 +867,48 @@
   // ================== HOME: payment instructions box ==================
   function renderPaymentBox(){
     const box = document.getElementById('paymentBox');
-    const hasNumbers = settings.payment_numbers && settings.payment_numbers.trim();
-    if(!hasNumbers){ box.hidden = true; return; }
+    const methods = [
+      ['bKash', settings.payment_bkash],
+      ['Nagad', settings.payment_nagad],
+      ['Rocket', settings.payment_rocket]
+    ].filter(([,num]) => num && num.trim());
+
+    if(methods.length === 0){ box.hidden = true; return; }
     box.hidden = false;
-    document.getElementById('paymentNumbersText').textContent = settings.payment_numbers;
+    document.getElementById('paymentMethods').innerHTML = methods.map(([label,num], i) => `
+      <div class="payment-method-box">
+        <div class="pm-label">${label}</div>
+        <div class="pm-row">
+          <span class="pm-number">${escapeHtml(num.trim())}</span>
+          <button class="pm-copy" data-copy="${escapeAttr(num.trim())}">📋 কপি</button>
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('paymentMethods').querySelectorAll('.pm-copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        try{ await navigator.clipboard.writeText(btn.dataset.copy); }
+        catch(e){ /* clipboard API blocked — fall back silently, number is still visible to copy manually */ }
+        const oldLabel = btn.textContent;
+        btn.textContent = '✓ কপি হয়েছে'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = oldLabel; btn.classList.remove('copied'); }, 1800);
+      });
+    });
   }
 
   // ================== HOME: ticket list + pagination ==================
   function renderStubs(){
     const grid = document.getElementById('stubGrid');
+    const gridPage = document.getElementById('stubGridPage');
     const pagerEl = document.getElementById('pager');
+    const pagerElPage = document.getElementById('pagerPage');
     const visible = publicEntries.filter(e => e.status === 'pending' || e.status === 'verified');
-    if(visible.length === 0){ grid.innerHTML = '<div class="empty">এখনো কোনো এন্ট্রি নেই। প্রথম হোন!</div>'; pagerEl.innerHTML=''; renderStats(); return; }
+    if(visible.length === 0){
+      const emptyHtml = '<div class="empty">এখনো কোনো এন্ট্রি নেই। প্রথম হোন!</div>';
+      grid.innerHTML = emptyHtml; gridPage.innerHTML = emptyHtml;
+      pagerEl.innerHTML=''; pagerElPage.innerHTML='';
+      renderStats(); return;
+    }
     const sorted = [...visible].sort((a,b)=>b.ts-a.ts);
 
     const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
@@ -855,61 +917,79 @@
     const start = (currentPage-1)*PAGE_SIZE;
     const pageItems = sorted.slice(start, start+PAGE_SIZE);
 
-    grid.innerHTML = pageItems.map(e => `
+    const cardsHtml = pageItems.map(e => `
       <div class="ticket-card" data-ticket-id="${e.id}">
-        <div class="tc-watermark">LUCKY DRAW</div>
         <div class="ribbon ${e.status}">${statusIcon[e.status]}${statusLabel[e.status]}</div>
         <div class="tc-brand">🎟️ LUCKY DRAW TICKET</div>
         <div class="tc-no">#${String(e.tno).padStart(4,'0')}</div>
         <hr class="tc-divider">
         <div class="tc-name">${escapeHtml(e.name)}</div>
-        <div class="tc-row"><span class="tc-row-lbl">মোবাইল</span><span class="tc-row-val">${e.mobile}</span></div>
-        <div class="tc-row"><span class="tc-row-lbl">ট্রানজেকশন</span><span class="tc-row-val">${escapeHtml(e.txn||'-')}</span></div>
-        <div class="tc-row"><span class="tc-row-lbl">প্রবেশ</span><span class="tc-row-val">${fmtRelative(e.ts)}</span></div>
-        ${settings.competition_end_at ? `<div class="tc-row"><span class="tc-row-lbl">ড্র সময়</span><span class="tc-row-val">${fmtTime(new Date(settings.competition_end_at).getTime())}</span></div>` : ''}
+        <div class="tc-body">
+          <div class="tc-row"><span class="tc-row-lbl">মোবাইল</span><span class="tc-row-val">${e.mobile}</span></div>
+          <div class="tc-row"><span class="tc-row-lbl">ট্রানজেকশন</span><span class="tc-row-val">${escapeHtml(e.txn||'-')}</span></div>
+          <div class="tc-row"><span class="tc-row-lbl">প্রবেশ</span><span class="tc-row-val">${fmtRelative(e.ts)}</span></div>
+          ${settings.competition_end_at ? `<div class="tc-row"><span class="tc-row-lbl">ড্র সময়</span><span class="tc-row-val">${fmtTime(new Date(settings.competition_end_at).getTime())}</span></div>` : ''}
+        </div>
         ${e.status==='verified' ? `<button class="tc-download" data-action="download-ticket">⬇ টিকিট ডাউনলোড</button>` : ''}
       </div>
     `).join('');
+    grid.innerHTML = cardsHtml;
+    gridPage.innerHTML = cardsHtml;
 
-    grid.querySelectorAll('[data-action="download-ticket"]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const card = btn.closest('.ticket-card');
-        btn.disabled = true; const oldLabel = btn.textContent; btn.textContent = '...';
-        try{
-          await loadScriptOnce('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
-          btn.style.visibility = 'hidden'; // don't include the download button itself in the image
-          const canvas = await html2canvas(card, { backgroundColor:'#ffffff', scale:2 });
-          btn.style.visibility = 'visible';
-          const link = document.createElement('a');
-          link.download = `ticket-${card.dataset.ticketId.slice(0,8)}.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        }catch(e){
-          alert('টিকিট তৈরি করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।');
-        }
-        btn.disabled = false; btn.textContent = oldLabel;
+    function wireDownloadButtons(container){
+      container.querySelectorAll('[data-action="download-ticket"]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const card = btn.closest('.ticket-card');
+          btn.disabled = true; const oldLabel = btn.textContent; btn.textContent = '...';
+          try{
+            await loadScriptOnce('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
+            btn.style.visibility = 'hidden'; // don't include the download button itself in the image
+            const canvas = await html2canvas(card, { backgroundColor:'#ffffff', scale:2 });
+            btn.style.visibility = 'visible';
+            const link = document.createElement('a');
+            link.download = `ticket-${card.dataset.ticketId.slice(0,8)}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+          }catch(e){
+            alert('টিকিট তৈরি করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।');
+          }
+          btn.disabled = false; btn.textContent = oldLabel;
+        });
       });
-    });
+    }
+    wireDownloadButtons(grid);
+    wireDownloadButtons(gridPage);
 
-    if(totalPages <= 1){ pagerEl.innerHTML = ''; }
-    else{
+    function buildPagerHtml(){
+      if(totalPages <= 1) return '';
       let btns = `<button ${currentPage===1?'disabled':''} data-pg="${currentPage-1}">‹ আগে</button>`;
       for(let p=1;p<=totalPages;p++){ btns += `<button class="${p===currentPage?'active':''}" data-pg="${p}">${p}</button>`; }
       btns += `<button ${currentPage===totalPages?'disabled':''} data-pg="${currentPage+1}">পরে ›</button>`;
-      pagerEl.innerHTML = btns;
-      pagerEl.querySelectorAll('button[data-pg]').forEach(b => b.addEventListener('click', () => { currentPage = Number(b.dataset.pg); renderStubs(); window.scrollTo({top:0,behavior:'smooth'}); }));
+      return btns;
     }
+    function wirePager(container, scrollTarget){
+      container.innerHTML = buildPagerHtml();
+      container.querySelectorAll('button[data-pg]').forEach(b => b.addEventListener('click', () => {
+        currentPage = Number(b.dataset.pg); renderStubs();
+        scrollTarget.scrollIntoView({ behavior:'smooth', block:'start' });
+      }));
+    }
+    wirePager(pagerEl, document.getElementById('homeView'));
+    wirePager(pagerElPage, document.getElementById('entriesView'));
+
     renderStats();
   }
   function renderStats(){
     const counts = { pending:0, verified:0, rejected:0, winner:0 };
     publicEntries.forEach(e => { counts[e.status] = (counts[e.status]||0)+1; });
-    document.getElementById('statsBar').innerHTML = `
+    const html = `
       <span>মোট: <b>${publicEntries.length}</b></span>
       <span>পেন্ডিং: <b>${counts.pending}</b></span>
       <span>ভেরিফাইড: <b>${counts.verified}</b></span>
       <span>বিজয়ী: <b>${counts.winner}</b></span>
     `;
+    document.getElementById('statsBar').innerHTML = html;
+    document.getElementById('statsBarPage').innerHTML = html;
   }
 
   // ================== HOME: comments ==================
@@ -1012,8 +1092,7 @@
     submitBtn.disabled = true;
     submitBtnLabel.innerHTML = '<span class="spinner"></span> জমা হচ্ছে...';
     const payload = { name, mobile, txn, status:'pending' };
-    // .select('ticket_no') asks Supabase to hand back the new row's permanent ticket number directly
-    const { data: insertedRows, error } = await sb.from('entries').insert([payload]).select('ticket_no');
+    const { error } = await sb.from('entries').insert([payload]);
     submitBtn.disabled = false;
     submitBtnLabel.textContent = 'চেক-ইন করুন';
     if(error){
@@ -1021,7 +1100,10 @@
       else { formStatus.textContent='✗ সমস্যা হয়েছে, আবার চেষ্টা করুন'; formStatus.classList.add('bad'); }
       return;
     }
-    const newTicketNo = insertedRows && insertedRows[0] ? insertedRows[0].ticket_no : null;
+    // Look up the ticket number via the public view (anon already has read access there)
+    // rather than reading the raw entries table, which anon is intentionally not allowed to do.
+    const { data: lookupRow } = await sb.from('public_entries').select('ticket_no').eq('txn', txn).single();
+    const newTicketNo = lookupRow ? lookupRow.ticket_no : null;
     form.reset();
     document.getElementById('fNameCount').textContent = '০ / ৬০';
     [fName,fMobile,fTxn].forEach(i => i.classList.remove('valid-ok','err'));
@@ -1069,20 +1151,27 @@
   // ================== TOP + BOTTOM NAV ==================
   const navHome = document.getElementById('navHome'), navAdmin = document.getElementById('navAdmin');
   const bnHome = document.getElementById('bnHome'), bnEntries = document.getElementById('bnEntries'), bnAdmin = document.getElementById('bnAdmin');
-  const homeView = document.getElementById('homeView'), adminView = document.getElementById('adminView');
+  const homeView = document.getElementById('homeView'), adminView = document.getElementById('adminView'), entriesView = document.getElementById('entriesView');
   function clearBottomNavActive(){ [bnHome,bnEntries,bnAdmin].forEach(b => b.classList.remove('active')); }
-  function goHome(){ navHome.classList.add('active'); navAdmin.classList.remove('active'); clearBottomNavActive(); bnHome.classList.add('active'); homeView.hidden=false; adminView.hidden=true; }
-  function goAdmin(){ navAdmin.classList.add('active'); navHome.classList.remove('active'); clearBottomNavActive(); bnAdmin.classList.add('active'); homeView.hidden=true; adminView.hidden=false; renderAdmin(); }
+  function goHome(){
+    navHome.classList.add('active'); navAdmin.classList.remove('active'); clearBottomNavActive(); bnHome.classList.add('active');
+    homeView.hidden=false; adminView.hidden=true; entriesView.hidden=true;
+  }
+  function goAdmin(){
+    navAdmin.classList.add('active'); navHome.classList.remove('active'); clearBottomNavActive(); bnAdmin.classList.add('active');
+    homeView.hidden=true; entriesView.hidden=true; adminView.hidden=false; renderAdmin();
+  }
   function goEntries(){
     navHome.classList.add('active'); navAdmin.classList.remove('active'); clearBottomNavActive(); bnEntries.classList.add('active');
-    homeView.hidden=false; adminView.hidden=true;
-    document.getElementById('stubGrid').scrollIntoView({ behavior:'smooth', block:'start' });
+    homeView.hidden=true; adminView.hidden=true; entriesView.hidden=false;
+    window.scrollTo({top:0,behavior:'instant'});
   }
   navHome.addEventListener('click', goHome);
   navAdmin.addEventListener('click', goAdmin);
   bnHome.addEventListener('click', goHome);
   bnEntries.addEventListener('click', goEntries);
   bnAdmin.addEventListener('click', goAdmin);
+  document.getElementById('entriesBackBtn').addEventListener('click', goHome);
   document.getElementById('stickyJoinBtn').addEventListener('click', () => {
     if(homeView.hidden) goHome();
     document.getElementById('entrySection').scrollIntoView({ behavior:'smooth', block:'start' });
@@ -1552,7 +1641,11 @@
       <div class="settings-card">
         <div class="field" style="margin-bottom:14px;"><label>টিকিট মূল্য (৳)</label><input type="text" id="sPrice" value="${settings.ticket_price}"></div>
         <div class="field" style="margin-bottom:14px;"><label>প্ল্যাটফর্ম ফি (%)</label><input type="text" id="sFee" value="${settings.platform_fee_percent}"></div>
-        <div class="field" style="margin-bottom:14px;"><label>পেমেন্ট নাম্বার (হোমপেজে দেখাবে)</label><textarea id="sPaymentNumbers" placeholder="যেমন:&#10;bKash (Personal): 01XXXXXXXXX&#10;Nagad: 01XXXXXXXXX">${escapeHtml(settings.payment_numbers||'')}</textarea></div>
+        <div class="settings-grid">
+          <div class="field"><label>bKash নাম্বার</label><input type="text" id="sBkash" value="${escapeAttr(settings.payment_bkash||'')}" placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label>Nagad নাম্বার</label><input type="text" id="sNagad" value="${escapeAttr(settings.payment_nagad||'')}" placeholder="01XXXXXXXXX"></div>
+        </div>
+        <div class="field" style="margin-bottom:14px;"><label>Rocket নাম্বার</label><input type="text" id="sRocket" value="${escapeAttr(settings.payment_rocket||'')}" placeholder="01XXXXXXXXX"></div>
         <div class="settings-grid">
           <div class="field"><label>১ম পুরস্কার (%)</label><input type="text" id="sP1" value="${settings.prize_first_percent}"></div>
           <div class="field"><label>২য় পুরস্কার (%)</label><input type="text" id="sP2" value="${settings.prize_second_percent}"></div>
@@ -1598,7 +1691,9 @@
       const { error } = await sb.from('settings').update({
         ticket_price:price, platform_fee_percent:fee, prize_first_percent:p1, prize_second_percent:p2, prize_third_percent:p3,
         competition_end_at: endAtRaw ? new Date(endAtRaw).toISOString() : null,
-        payment_numbers: document.getElementById('sPaymentNumbers').value.trim(),
+        payment_bkash: document.getElementById('sBkash').value.trim(),
+        payment_nagad: document.getElementById('sNagad').value.trim(),
+        payment_rocket: document.getElementById('sRocket').value.trim(),
         rules_text: document.getElementById('sRules').value.trim(),
         contact_info: document.getElementById('sContact').value.trim(),
         about_text: document.getElementById('sAbout').value.trim(),
