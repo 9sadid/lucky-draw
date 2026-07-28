@@ -1059,7 +1059,19 @@
   }
 
   function renderHome(){
-    renderMessages(); renderPaymentBox(); renderVault(); renderCountdown(); renderWinnerHistory(); renderRules(); renderStubs(); renderComments(); renderFooter();
+    // Each piece renders independently — if one throws (e.g. a settings field
+    // that isn't in the database yet), the rest of the page still updates
+    // instead of silently freezing partway through.
+    const safe = (fn, label) => { try{ fn(); }catch(e){ console.error('render failed:', label, e); } };
+    safe(renderMessages, 'messages');
+    safe(renderPaymentBox, 'paymentBox');
+    safe(renderVault, 'vault');
+    safe(renderCountdown, 'countdown');
+    safe(renderWinnerHistory, 'winnerHistory');
+    safe(renderRules, 'rules');
+    safe(renderStubs, 'stubs');
+    safe(renderComments, 'comments');
+    safe(renderFooter, 'footer');
   }
 
   // ================== ENTRY FORM ==================
