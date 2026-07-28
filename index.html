@@ -57,15 +57,13 @@
   .msg-banner + .msg-banner{margin-top:8px;}
   .msg-empty{color:var(--muted);font-size:12.5px;}
 
-  .howitworks-box{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
-  .howitworks-head{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:15px;margin-bottom:14px;}
-  .howitworks-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;}
-  .hiw-step{display:flex;flex-direction:column;gap:8px;position:relative;}
-  .hiw-step:not(:last-child)::after{
-    content:"→";position:absolute;top:1px;right:-16px;font-size:16px;font-weight:800;color:var(--gold);
-  }
-  @media(max-width:720px){ .hiw-step:not(:last-child)::after{ display:none; } }
-  .hiw-num{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .howitworks-box{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+  .howitworks-head{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px;}
+  .howitworks-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
+  .hiw-step{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px;}
+  .hiw-num-row{display:flex;align-items:center;gap:8px;}
+  .hiw-arrow{font-size:15px;font-weight:800;color:var(--gold);flex-shrink:0;}
+  .hiw-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;background:var(--gold);color:#fff;font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
   .hiw-text{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.5;}
   @media(max-width:720px){.howitworks-steps{grid-template-columns:1fr 1fr;}}
 
@@ -219,7 +217,7 @@
     background:var(--panel);border:2px solid var(--ink);border-radius:14px;padding:16px 15px 13px;
     position:relative;overflow:hidden;box-shadow:0 2px 6px -2px rgba(18,23,42,0.12), 0 10px 24px -14px rgba(18,23,42,0.35);
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    aspect-ratio:1/1.4;display:flex;flex-direction:column;
+    aspect-ratio:1.4/1;display:flex;flex-direction:column;
   }
   .ticket-card::before, .ticket-card::after{
     content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--paper-dim);
@@ -299,6 +297,7 @@
   .bottom-nav{display:none;}
   @media(max-width:720px){
     body{padding-bottom:70px;}
+    #homeEntryListSection{display:none;}
     .sticky-join{
       display:flex;position:fixed;bottom:76px;right:16px;z-index:45;
       background:var(--red);color:#fff;border:none;border-radius:26px;padding:12px 20px;
@@ -478,11 +477,11 @@
     <div class="howitworks-box">
       <div class="howitworks-head">ℹ️ এটি কীভাবে কাজ করে</div>
       <div class="howitworks-steps">
-        <div class="hiw-step"><div class="hiw-num">১</div><div class="hiw-text">পেমেন্ট করুন এবং নিচের নাম্বারে টাকা পাঠান</div></div>
-        <div class="hiw-step"><div class="hiw-num">২</div><div class="hiw-text">আপনার নাম, মোবাইল ও ট্রানজেকশন আইডি দিয়ে চেক-ইন করুন</div></div>
-        <div class="hiw-step"><div class="hiw-num">৩</div><div class="hiw-text">অ্যাডমিন যাচাই করলে আপনার এন্ট্রি "ভেরিফাইড" হবে</div></div>
-        <div class="hiw-step"><div class="hiw-num">৪</div><div class="hiw-text">নির্ধারিত সময়ে মানুষ ছাড়াই ইলেকট্রনিক ভাবে বিজয়ী নির্বাচন করা হবে</div></div>
-        <div class="hiw-step"><div class="hiw-num">৫</div><div class="hiw-text">কোনো দালাল নেই — সংগৃহীত অর্থ সরাসরি বিজয়ীদের দেওয়া হয়; সিস্টেম চালানোর জন্য শুধু সর্বনিম্ন যে চার্জ কাটা হয়, তা ব্যতীত সবটুকুই পুরস্কার হিসেবে বণ্টিত হয়</div></div>
+        <div class="hiw-step"><div class="hiw-num-row"><div class="hiw-num">১</div><span class="hiw-arrow">→</span></div><div class="hiw-text">পেমেন্ট করুন এবং নিচের নাম্বারে টাকা পাঠান</div></div>
+        <div class="hiw-step"><div class="hiw-num-row"><div class="hiw-num">২</div><span class="hiw-arrow">→</span></div><div class="hiw-text">আপনার নাম, মোবাইল ও ট্রানজেকশন আইডি দিয়ে চেক-ইন করুন</div></div>
+        <div class="hiw-step"><div class="hiw-num-row"><div class="hiw-num">৩</div><span class="hiw-arrow">→</span></div><div class="hiw-text">অ্যাডমিন যাচাই করলে আপনার এন্ট্রি "ভেরিফাইড" হবে</div></div>
+        <div class="hiw-step"><div class="hiw-num-row"><div class="hiw-num">৪</div><span class="hiw-arrow">→</span></div><div class="hiw-text">নির্ধারিত সময়ে মানুষ ছাড়াই ইলেকট্রনিক ভাবে বিজয়ী নির্বাচন করা হবে</div></div>
+        <div class="hiw-step"><div class="hiw-num-row"><div class="hiw-num">৫</div></div><div class="hiw-text">কোনো দালাল নেই — সংগৃহীত অর্থ সরাসরি বিজয়ীদের দেওয়া হয়; সিস্টেম চালানোর জন্য শুধু সর্বনিম্ন যে চার্জ কাটা হয়, তা ব্যতীত সবটুকুই পুরস্কার হিসেবে বণ্টিত হয়</div></div>
       </div>
       <div class="trust-bar">
         <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>লাইভ ড্র</div>
@@ -545,13 +544,15 @@
       </form>
     </section>
 
-    <div class="list-head">
-      <h2>এন্ট্রি লিস্ট</h2>
-      <div class="stats" id="statsBar"></div>
+    <div id="homeEntryListSection">
+      <div class="list-head">
+        <h2>এন্ট্রি লিস্ট</h2>
+        <div class="stats" id="statsBar"></div>
+      </div>
+      <p class="list-note">সবাই এই লিস্ট দেখতে পাবে। অ্যাডমিন যাচাই করে স্ট্যাটাস আপডেট করলে এখানে লাইভ আপডেট হবে।</p>
+      <div class="ticket-grid" id="stubGrid"></div>
+      <div class="pager" id="pager"></div>
     </div>
-    <p class="list-note">সবাই এই লিস্ট দেখতে পাবে। অ্যাডমিন যাচাই করে স্ট্যাটাস আপডেট করলে এখানে লাইভ আপডেট হবে।</p>
-    <div class="ticket-grid" id="stubGrid"></div>
-    <div class="pager" id="pager"></div>
 
     <section class="winner-history" id="whSection" hidden>
       <div class="list-head"><h2>🏅 অতীতের বিজয়ীরা</h2></div>
@@ -647,7 +648,7 @@
   }
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth:{ persistSession:false } });
 
-  const PAGE_SIZE = 100;
+  const PAGE_SIZE = 50;
   // publicEntries: masked data for the homepage (read from the public_entries view, never exposes raw mobile numbers)
   let publicEntries = [];
   // entries: raw data, only ever loaded when an admin session is active
@@ -1447,7 +1448,8 @@
       }
       tr.querySelector('[data-action="delete"]').addEventListener('click', async () => {
         if(!confirm('এই এন্ট্রি মুছে ফেলতে চান?')) return;
-        await sb.from('entries').delete().eq('id', id);
+        const { error } = await sb.from('entries').delete().eq('id', id);
+        if(error){ alert('মুছে ফেলা যায়নি: ' + error.message); return; }
         await loadEntries(); renderAdminEntriesRows();
       });
     });
