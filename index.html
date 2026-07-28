@@ -67,19 +67,41 @@
   .hiw-text{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.5;}
   @media(max-width:720px){.howitworks-steps{grid-template-columns:1fr 1fr;}}
 
-  .payment-box{margin-top:16px;background:var(--green-dim);border:1px solid var(--green);border-radius:14px;padding:18px;}
-  .payment-head{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:15px;margin-bottom:10px;color:var(--green);}
-  .payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  .payment-method-box{background:#fff;border:1px solid var(--green);border-radius:10px;padding:12px 14px;}
-  .pm-label{font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:11.5px;color:var(--green);font-weight:700;margin-bottom:6px;}
-  .pm-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-  .pm-number{font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:16px;color:var(--ink);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .pm-copy{
-    flex-shrink:0;background:var(--green-dim);color:var(--green);border:none;border-radius:6px;
-    padding:5px 10px;font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;
+  .payment-box{
+    margin-top:16px;background:linear-gradient(135deg,#1B2340,#12172A);border:none;border-radius:16px;
+    padding:22px;box-shadow:0 12px 28px -14px rgba(18,23,42,0.5);
   }
-  .pm-copy:hover{background:var(--green);color:#fff;}
-  .pm-copy.copied{background:var(--ink);color:var(--gold);}
+  .payment-head{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:800;font-size:17px;margin-bottom:14px;color:#fff;}
+  .payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .payment-method-box{
+    border-radius:14px;padding:16px;position:relative;overflow:hidden;
+    box-shadow:0 6px 16px -8px rgba(0,0,0,0.3);transition:transform .15s ease;
+  }
+  .payment-method-box:hover{transform:translateY(-3px);}
+  .payment-method-box.bkash{background:linear-gradient(155deg,#FF2D87,#E2136E);}
+  .payment-method-box.nagad{background:linear-gradient(155deg,#FF7A18,#E4581A);}
+  .payment-method-box.rocket{background:linear-gradient(155deg,#9B4FC4,#6B2D8C);}
+  .pm-label{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-size:13px;color:#fff;font-weight:800;margin-bottom:10px;text-shadow:0 1px 2px rgba(0,0,0,0.15);}
+  .pm-row{display:flex;flex-direction:column;gap:8px;}
+  .pm-number{
+    font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:19px;color:#fff;letter-spacing:.03em;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,0.2);
+    background:rgba(255,255,255,0.16);border-radius:8px;padding:8px 10px;
+  }
+  .pm-copy{
+    align-self:flex-start;background:#fff;border:none;border-radius:20px;
+    padding:6px 14px;font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:11.5px;font-weight:700;cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  }
+  .pm-copy.bkash{color:#E2136E;}
+  .pm-copy.nagad{color:#E4581A;}
+  .pm-copy.rocket{color:#6B2D8C;}
+  .pm-copy:hover{opacity:.85;}
+  .pm-copy.copied{background:var(--gold);color:var(--ink);}
+  .payment-instructions{
+    margin-top:14px;background:rgba(184,146,58,0.18);border:1px dashed var(--gold);border-radius:10px;
+    padding:10px 14px;font-size:12.5px;color:#F0D48A;line-height:1.6;
+  }
   @media(max-width:640px){ .payment-methods{grid-template-columns:1fr;} }
 
   /* ---------- vault + flip countdown ---------- */
@@ -346,9 +368,10 @@
     .countdown-label{font-size:10px;margin-bottom:6px;}
 
     /* payment numbers box: smaller padding/text so long numbers wrap cleanly */
-    .payment-box{padding:14px;}
-    .payment-head{font-size:13.5px;}
-    .pm-number{font-size:14px;}
+    .payment-box{padding:16px;}
+    .payment-head{font-size:14.5px;}
+    .pm-number{font-size:15px;padding:7px 9px;}
+    .payment-method-box{padding:13px;}
   }
   @media(max-width:380px){
     .countdown-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
@@ -494,6 +517,7 @@
     <div class="payment-box" id="paymentBox" hidden>
       <div class="payment-head">💳 পেমেন্ট পাঠানোর নাম্বার</div>
       <div class="payment-methods" id="paymentMethods"></div>
+      <div class="payment-instructions" id="paymentInstructions" hidden></div>
     </div>
 
     <section class="vault">
@@ -656,7 +680,7 @@
   let settings = {
     ticket_price:10, platform_fee_percent:10, prize_first_percent:50, prize_second_percent:30, prize_third_percent:20,
     competition_end_at:null, rules_text:'', contact_info:'', about_text:'', privacy_text:'', terms_text:'',
-    social_facebook:'', social_whatsapp:'', social_telegram:'', payment_bkash:'', payment_nagad:'', payment_rocket:''
+    social_facebook:'', social_whatsapp:'', social_telegram:'', payment_bkash:'', payment_nagad:'', payment_rocket:'', payment_instructions:''
   };
   let messages = [];
   let comments = [];
@@ -869,22 +893,27 @@
   function renderPaymentBox(){
     const box = document.getElementById('paymentBox');
     const methods = [
-      ['bKash', settings.payment_bkash],
-      ['Nagad', settings.payment_nagad],
-      ['Rocket', settings.payment_rocket]
-    ].filter(([,num]) => num && num.trim());
+      ['bkash','bKash','📱', settings.payment_bkash],
+      ['nagad','Nagad','💰', settings.payment_nagad],
+      ['rocket','Rocket','🚀', settings.payment_rocket]
+    ].filter(([,,,num]) => num && num.trim());
 
     if(methods.length === 0){ box.hidden = true; return; }
     box.hidden = false;
-    document.getElementById('paymentMethods').innerHTML = methods.map(([label,num], i) => `
-      <div class="payment-method-box">
-        <div class="pm-label">${label}</div>
+    document.getElementById('paymentMethods').innerHTML = methods.map(([cls,label,icon,num]) => `
+      <div class="payment-method-box ${cls}">
+        <div class="pm-label">${icon} ${label}</div>
         <div class="pm-row">
           <span class="pm-number">${escapeHtml(num.trim())}</span>
-          <button class="pm-copy" data-copy="${escapeAttr(num.trim())}">📋 কপি</button>
+          <button class="pm-copy ${cls}" data-copy="${escapeAttr(num.trim())}">📋 কপি</button>
         </div>
       </div>
     `).join('');
+
+    const instrEl = document.getElementById('paymentInstructions');
+    const hasInstr = settings.payment_instructions && settings.payment_instructions.trim();
+    instrEl.hidden = !hasInstr;
+    if(hasInstr) instrEl.textContent = '📌 ' + settings.payment_instructions;
 
     document.getElementById('paymentMethods').querySelectorAll('.pm-copy').forEach(btn => {
       btn.addEventListener('click', async () => {
@@ -1648,6 +1677,7 @@
           <div class="field"><label>Nagad নাম্বার</label><input type="text" id="sNagad" value="${escapeAttr(settings.payment_nagad||'')}" placeholder="01XXXXXXXXX"></div>
         </div>
         <div class="field" style="margin-bottom:14px;"><label>Rocket নাম্বার</label><input type="text" id="sRocket" value="${escapeAttr(settings.payment_rocket||'')}" placeholder="01XXXXXXXXX"></div>
+        <div class="field" style="margin-bottom:14px;"><label>পেমেন্ট নির্দেশনা (ঐচ্ছিক, হোমপেজে পেমেন্ট বক্সের নিচে দেখাবে)</label><textarea id="sPaymentInstructions" placeholder="যেমন: পেমেন্ট করার পর অবশ্যই Reference-এ আপনার নাম লিখুন।">${escapeHtml(settings.payment_instructions||'')}</textarea></div>
         <div class="settings-grid">
           <div class="field"><label>১ম পুরস্কার (%)</label><input type="text" id="sP1" value="${settings.prize_first_percent}"></div>
           <div class="field"><label>২য় পুরস্কার (%)</label><input type="text" id="sP2" value="${settings.prize_second_percent}"></div>
@@ -1696,6 +1726,7 @@
         payment_bkash: document.getElementById('sBkash').value.trim(),
         payment_nagad: document.getElementById('sNagad').value.trim(),
         payment_rocket: document.getElementById('sRocket').value.trim(),
+        payment_instructions: document.getElementById('sPaymentInstructions').value.trim(),
         rules_text: document.getElementById('sRules').value.trim(),
         contact_info: document.getElementById('sContact').value.trim(),
         about_text: document.getElementById('sAbout').value.trim(),
