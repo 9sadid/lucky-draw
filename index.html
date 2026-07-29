@@ -1385,6 +1385,7 @@
         <span id="bulkCount">0 নির্বাচিত</span>
         <button class="ghost" id="bulkVerifyBtn">✓ সব ভেরিফাই করুন</button>
         <button class="ghost" id="bulkRejectBtn">✗ সব বাতিল করুন</button>
+        <button class="ghost" id="bulkDeleteBtn" style="color:var(--red);border-color:var(--red);">🗑 সব মুছে ফেলুন</button>
       </div>
       <div style="overflow-x:auto;">
       <table class="admin-table">
@@ -1405,6 +1406,7 @@
     });
     document.getElementById('bulkVerifyBtn').addEventListener('click', () => bulkUpdateStatus('verified'));
     document.getElementById('bulkRejectBtn').addEventListener('click', () => bulkUpdateStatus('rejected'));
+    document.getElementById('bulkDeleteBtn').addEventListener('click', bulkDeleteSelected);
     renderAdminEntriesRows();
   }
 
@@ -1425,6 +1427,20 @@
     await loadEntries();
     renderAdminEntriesRows();
     document.getElementById('bulkBar').style.display = 'none';
+  }
+  async function bulkDeleteSelected(){
+    if(selectedIds.size === 0) return;
+    if(!confirm(`${selectedIds.size} টি এন্ট্রি স্থায়ীভাবে মুছে ফেলতে চান? এটি ফেরত আনা যাবে না।`)) return;
+    let failCount = 0;
+    for(const id of selectedIds){
+      const { error } = await sb.from('entries').delete().eq('id', id);
+      if(error){ failCount++; console.error(error); }
+    }
+    selectedIds.clear();
+    await loadEntries();
+    renderAdminEntriesRows();
+    document.getElementById('bulkBar').style.display = 'none';
+    if(failCount > 0) alert(`${failCount} টি এন্ট্রি মুছে ফেলা যায়নি — কনসোলে (F12) বিস্তারিত দেখুন।`);
   }
 
   function renderAdminEntriesRows(){
