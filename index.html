@@ -136,7 +136,11 @@
   .prize-rank{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#8891AD;margin-bottom:10px;}
   .prize-amount{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-size:36px;font-weight:800;color:#fff;margin-bottom:4px;}
   .prize-percent{font-size:11px;color:var(--gold);margin-bottom:14px;}
-  .prize-winner{font-size:14.5px;font-weight:600;color:#EDE9DC;background:rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px;}
+  .prize-winner{font-size:12.5px;font-weight:600;color:#EDE9DC;background:rgba(255,255,255,0.08);border:1px solid rgba(228,193,92,0.35);border-radius:10px;padding:10px 12px;text-align:center;}
+  .pw-row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;}
+  .pw-row + .pw-row{border-top:1px dashed rgba(255,255,255,0.15);}
+  .pw-lbl{font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#8891AD;}
+  .pw-val{font-family:'IBM Plex Mono',monospace;font-weight:800;color:var(--gold);font-size:13.5px;}
   .prize-tba{font-size:12px;color:#8891AD;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 10px;border:1px dashed rgba(255,255,255,0.15);}
 
   /* ---------- trust bar ---------- */
@@ -234,9 +238,9 @@
   .stats{display:flex;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);flex-wrap:wrap;}
   .stats b{color:var(--ink);}
   .list-note{color:var(--muted);font-size:12.5px;margin:0 0 18px;}
-  .ticket-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
+  .ticket-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
   .ticket-card{
-    background:var(--panel);border:2px solid var(--ink);border-radius:14px;padding:16px 15px 13px;
+    background:var(--panel);border:2px solid var(--ink);border-radius:14px;padding:12px 13px 10px;
     position:relative;overflow:hidden;box-shadow:0 2px 6px -2px rgba(18,23,42,0.12), 0 10px 24px -14px rgba(18,23,42,0.35);
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     aspect-ratio:1.4/1;display:flex;flex-direction:column;
@@ -252,17 +256,17 @@
   .ribbon svg{width:9px;height:9px;flex-shrink:0;}
   .ribbon.pending{background:linear-gradient(135deg,#C9A23E,var(--gold));}
   .ribbon.verified{background:linear-gradient(135deg,#3E8863,var(--green));}
-  .tc-brand{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--gold);font-weight:600;margin-bottom:2px;position:relative;z-index:1;}
-  .tc-no{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:800;font-size:22px;color:var(--ink);letter-spacing:.03em;position:relative;z-index:1;}
-  .tc-divider{border:none;border-top:2px dashed var(--line);margin:8px 0 9px;position:relative;z-index:1;}
+  .tc-brand{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--gold);font-weight:600;margin-bottom:2px;position:relative;z-index:1;}
+  .tc-no{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:800;font-size:21px;color:var(--ink);letter-spacing:.03em;position:relative;z-index:1;}
+  .tc-divider{border:none;border-top:2px dashed var(--line);margin:5px 0 6px;position:relative;z-index:1;}
   .tc-name{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-weight:700;font-size:14.5px;margin:0 0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:1;}
-  .tc-body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:2px;}
-  .tc-row{display:flex;justify-content:space-between;gap:6px;font-size:10.5px;margin-bottom:4px;position:relative;z-index:1;}
-  .tc-row-lbl{font-family:'SolaimanLipi','IBM Plex Mono',monospace;color:#9BA095;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;}
-  .tc-row-val{font-family:'IBM Plex Mono',monospace;color:var(--ink);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tc-body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:1px;min-height:0;}
+  .tc-row{display:flex;justify-content:space-between;gap:6px;font-size:11px;margin-bottom:3px;position:relative;z-index:1;}
+  .tc-row-lbl{font-family:'SolaimanLipi','IBM Plex Mono',monospace;color:#9BA095;text-transform:uppercase;letter-spacing:.03em;flex-shrink:0;}
+  .tc-row-val{font-family:'SolaimanLipi','IBM Plex Mono',monospace;color:var(--ink);font-weight:600;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .tc-download{
-    margin-top:9px;width:100%;background:var(--green-dim);color:var(--green);border:none;border-radius:7px;
-    font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;padding:6px 0;cursor:pointer;position:relative;z-index:1;
+    margin-top:7px;width:100%;background:var(--green-dim);color:var(--green);border:none;border-radius:6px;
+    font-family:'SolaimanLipi','IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:5px 0;cursor:pointer;position:relative;z-index:1;
   }
   .tc-download:hover{background:var(--green);color:#fff;}
   .tc-download:disabled{opacity:.6;cursor:default;}
@@ -343,7 +347,7 @@
     header nav.top-nav{display:none;}
     input[type=text],input[type=email],input[type=password],textarea,.field-fl input{font-size:16px !important;padding-top:23px;padding-bottom:11px;}
     form#entryForm{grid-template-columns:1fr;}
-    .ticket-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+    .ticket-grid{grid-template-columns:repeat(auto-fill,minmax(165px,1fr));}
   }
   @media(max-width:640px){
     .vault-stats{grid-template-columns:repeat(3,1fr);gap:8px;}
@@ -356,7 +360,10 @@
     .prize-rank{font-size:8.5px;margin-bottom:5px;}
     .prize-amount{font-size:18px;margin-bottom:2px;}
     .prize-percent{font-size:9px;margin-bottom:8px;}
-    .prize-winner,.prize-tba{font-size:9.5px;padding:5px 6px;}
+    .prize-winner{padding:7px 8px;}
+    .prize-tba{font-size:9.5px;padding:5px 6px;}
+    .pw-lbl{font-size:8.5px;}
+    .pw-val{font-size:11px;}
     .trust-bar{grid-template-columns:repeat(2,1fr);}
     .comment-form .grid2{grid-template-columns:1fr;}
 
@@ -393,7 +400,8 @@
   .admin-main h2.page-title{font-family:'SolaimanLipi','Baloo Da 2',sans-serif;font-size:20px;margin:0 0 18px;}
   @media(max-width:820px){
     .admin-shell{flex-direction:column;}
-    .admin-sidebar{width:100%;flex-direction:row;overflow-x:auto;padding:10px;}
+    .admin-sidebar{width:100%;flex-direction:row;overflow-x:auto;padding:10px;-webkit-overflow-scrolling:touch;}
+    .admin-sidebar button{flex-shrink:0;white-space:nowrap;}
     .admin-sidebar .as-title{display:none;}
     .admin-sidebar .as-logout{margin-top:0;margin-left:auto;}
   }
@@ -514,18 +522,18 @@
       </div>
     </div>
 
-    <div class="payment-box" id="paymentBox" hidden>
-      <div class="payment-head">💳 পেমেন্ট পাঠানোর নাম্বার</div>
-      <div class="payment-methods" id="paymentMethods"></div>
-      <div class="payment-instructions" id="paymentInstructions" hidden></div>
-    </div>
-
     <section class="vault">
       <div class="vault-head"><h2>🏆 প্রাইজ ভল্ট</h2><span class="tag">Live Pool</span></div>
       <div class="countdown-wrap" id="countdownWrap"></div>
       <div class="vault-stats" id="vaultStats"></div>
       <div class="prize-grid" id="prizeGrid"></div>
     </section>
+
+    <div class="payment-box" id="paymentBox" hidden>
+      <div class="payment-head">💳 পেমেন্ট পাঠানোর নাম্বার</div>
+      <div class="payment-methods" id="paymentMethods"></div>
+      <div class="payment-instructions" id="paymentInstructions" hidden></div>
+    </div>
 
     <section class="counter" id="entrySection">
       <div class="eyebrow">টিকিট কাউন্টার · Ticket Counter</div>
@@ -698,7 +706,7 @@
   function validateName(v){ return /^[\u0980-\u09FFa-zA-Z\s.'-]{2,60}$/.test(v.trim()); }
   function validateMobile(v){ return /^01[3-9]\d{8}$/.test(v.trim()); }
   function validateTxn(v){ return /^[A-Za-z0-9-]{4,24}$/.test(v.trim()); }
-  function fmtTime(ts){ return new Date(ts).toLocaleString('bn-BD',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'}); }
+  function fmtTime(ts){ return new Date(ts).toLocaleString('bn-BD',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'long'}); }
   function bnDigits(n){ const map={0:'০',1:'১',2:'২',3:'৩',4:'৪',5:'৫',6:'৬',7:'৭',8:'৮',9:'৯'}; return String(n).split('').map(d=>map[d]||d).join(''); }
   function fmtRelative(ts){
     const diff = Date.now() - ts;
@@ -835,7 +843,7 @@
   // ================== HOME: vault + prize boxes ==================
   function renderVault(){
     const counted = publicEntries.filter(e => e.status === 'verified' || e.status === 'winner');
-    const total = counted.reduce((sum,e) => sum + Number(e.price != null ? e.price : settings.ticket_price), 0);
+    const total = counted.reduce((sum,e) => sum + Number(settings.ticket_price), 0);
     const fee = total * (Number(settings.platform_fee_percent)/100);
     const net = total - fee;
     document.getElementById('vaultStats').innerHTML = `
@@ -857,7 +865,7 @@
           <div class="prize-rank">${rankLabel[r]}</div>
           <div class="prize-amount">${money(amount)}</div>
           <div class="prize-percent">🎯 তহবিলের ${pct[r]}%</div>
-          ${w ? `<div class="prize-winner">🎉 ${escapeHtml(w.name)} · ${w.mobile}</div>` : `<div class="prize-tba">🔒 শীঘ্রই ঘোষণা করা হবে</div>`}
+          ${w ? `<div class="prize-winner">🎉<div class="pw-row"><span class="pw-lbl">টিকিট</span><span class="pw-val">#${String(w.tno).padStart(4,'0')}</span></div><div class="pw-row"><span class="pw-lbl">মোবাইল</span><span class="pw-val">${w.mobile}</span></div></div>` : `<div class="prize-tba">🔒 শীঘ্রই ঘোষণা করা হবে</div>`}
         </div>`;
     }).join('');
   }
@@ -955,8 +963,8 @@
         <hr class="tc-divider">
         <div class="tc-name">${escapeHtml(e.name)}</div>
         <div class="tc-body">
+          <div class="tc-row"><span class="tc-row-lbl">মূল্য</span><span class="tc-row-val">${money(settings.ticket_price)}</span></div>
           <div class="tc-row"><span class="tc-row-lbl">মোবাইল</span><span class="tc-row-val">${e.mobile}</span></div>
-          <div class="tc-row"><span class="tc-row-lbl">ট্রানজেকশন</span><span class="tc-row-val">${escapeHtml(e.txn||'-')}</span></div>
           <div class="tc-row"><span class="tc-row-lbl">প্রবেশ</span><span class="tc-row-val">${fmtRelative(e.ts)}</span></div>
           ${settings.competition_end_at ? `<div class="tc-row"><span class="tc-row-lbl">ড্র সময়</span><span class="tc-row-val">${fmtTime(new Date(settings.competition_end_at).getTime())}</span></div>` : ''}
         </div>
@@ -1314,7 +1322,7 @@
     const todayStart = new Date(); todayStart.setHours(0,0,0,0);
     const todayEntries = entries.filter(e => e.ts >= todayStart.getTime()).length;
     const paid = entries.filter(e => e.status==='verified' || e.status==='winner');
-    const revenue = paid.reduce((s,e) => s + Number(e.price != null ? e.price : settings.ticket_price), 0);
+    const revenue = paid.reduce((s,e) => s + Number(settings.ticket_price), 0);
     const counts = { pending:0, verified:0, rejected:0, winner:0 };
     entries.forEach(e => counts[e.status]++);
     const recent = [...paid].sort((a,b)=>b.ts-a.ts).slice(0,6);
@@ -1331,7 +1339,7 @@
       <div class="recent-payments">
         <h3>Recent Payments</h3>
         ${recent.length===0 ? '<div class="empty">No payments yet</div>' : recent.map(e => `
-          <div class="rp-row"><span>${escapeHtml(e.name)} · ${e.mobile}</span><span>${money(e.price!=null?e.price:settings.ticket_price)} · ${fmtRelative(e.ts)}</span></div>
+          <div class="rp-row"><span>${escapeHtml(e.name)} · ${e.mobile}</span><span>${money(settings.ticket_price)} · ${fmtRelative(e.ts)}</span></div>
         `).join('')}
       </div>`;
   }
@@ -1340,13 +1348,13 @@
   function renderAdminPayments(){
     const main = document.getElementById('adminMain');
     const paid = [...entries].filter(e => e.status==='verified' || e.status==='winner').sort((a,b)=>b.ts-a.ts);
-    const total = paid.reduce((s,e) => s + Number(e.price != null ? e.price : settings.ticket_price), 0);
+    const total = paid.reduce((s,e) => s + Number(settings.ticket_price), 0);
     main.innerHTML = `
       <h2 class="page-title">Payments</h2>
       <div class="kpi-grid"><div class="kpi-card gold"><div class="lbl">Total Collected</div><div class="val">${money(total)}</div></div></div>
       <table class="admin-table">
         <thead><tr><th>নাম</th><th>মোবাইল</th><th>ট্রানজেকশন</th><th>মূল্য</th><th>সময়</th></tr></thead>
-        <tbody>${paid.map(e => `<tr><td>${escapeHtml(e.name)}</td><td>${e.mobile}</td><td>${escapeHtml(e.txn)}</td><td>${money(e.price!=null?e.price:settings.ticket_price)}</td><td>${fmtTime(e.ts)}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);">কোনো পেমেন্ট নেই</td></tr>'}</tbody>
+        <tbody>${paid.map(e => `<tr><td>${escapeHtml(e.name)}</td><td>${e.mobile}</td><td>${escapeHtml(e.txn)}</td><td>${money(settings.ticket_price)}</td><td>${fmtTime(e.ts)}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);">কোনো পেমেন্ট নেই</td></tr>'}</tbody>
       </table>`;
   }
 
@@ -1499,7 +1507,7 @@
   function exportEntriesCsv(){
     const header = ['টিকিট','নাম','মোবাইল','ট্রানজেকশন','স্ট্যাটাস','র‍্যাংক','মূল্য','ভেরিফাই করেছেন','সময়'];
     const sorted = [...entries].sort((a,b)=>b.ts-a.ts);
-    const rows = sorted.map(e => [String(e.tno).padStart(4,'0'), e.name, e.mobile, e.txn, statusLabel[e.status], e.rank||'', e.price||'', e.verifiedBy||'', fmtTime(e.ts)]);
+    const rows = sorted.map(e => [String(e.tno).padStart(4,'0'), e.name, e.mobile, e.txn, statusLabel[e.status], e.rank||'', (e.status==='verified'||e.status==='winner') ? settings.ticket_price : '', e.verifiedBy||'', fmtTime(e.ts)]);
     const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
     const blob = new Blob(['\uFEFF'+csv], { type:'text/csv;charset=utf-8;' });
     const a = document.createElement('a');
@@ -1526,7 +1534,7 @@
     y += 6;
     sorted.forEach(e => {
       if(y > 280){ doc.addPage(); y = 20; }
-      const line = `#${String(e.tno).padStart(4,'0')} | ${e.name} | ${e.mobile} | ${e.txn} | ${e.status} | ${e.price||'-'} | ${new Date(e.ts).toLocaleString()}`;
+      const line = `#${String(e.tno).padStart(4,'0')} | ${e.name} | ${e.mobile} | ${e.txn} | ${e.status} | ${(e.status==='verified'||e.status==='winner') ? settings.ticket_price : '-'} | ${new Date(e.ts).toLocaleString()}`;
       doc.text(line.slice(0,120), 14, y);
       y += 6;
     });
@@ -1831,7 +1839,7 @@
 
     // recompute the same net-pool math used on the homepage, so archived prize amounts match what was actually shown
     const counted = entries.filter(e => e.status === 'verified' || e.status === 'winner');
-    const total = counted.reduce((s,e) => s + Number(e.price != null ? e.price : settings.ticket_price), 0);
+    const total = counted.reduce((s,e) => s + Number(settings.ticket_price), 0);
     const net = total * (1 - Number(settings.platform_fee_percent)/100);
     const pct = { 1:settings.prize_first_percent, 2:settings.prize_second_percent, 3:settings.prize_third_percent };
 
@@ -1947,7 +1955,7 @@
     const revenueCounts = days.map(d => {
       const next = new Date(d); next.setDate(d.getDate()+1);
       return entries.filter(e => (e.status==='verified'||e.status==='winner') && e.ts >= d.getTime() && e.ts < next.getTime())
-        .reduce((s,e) => s + Number(e.price != null ? e.price : settings.ticket_price), 0);
+        .reduce((s,e) => s + Number(settings.ticket_price), 0);
     });
     chartInstances.revenue = new Chart(document.getElementById('chartRevenue'), {
       type:'line', data:{ labels:dayLabels, datasets:[{ label:'Revenue (৳)', data:revenueCounts, borderColor:'#2F6B4F', backgroundColor:'rgba(47,107,79,0.15)', fill:true, tension:.3 }] },
